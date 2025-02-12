@@ -1,0 +1,9 @@
+#version: '3.12'
+services:
+   web:
+       build: .
+       command: python manage.py runserver localhost:8000
+       ports:
+           - 8000:8000
+       volumes:
+           - ./web1:/app
