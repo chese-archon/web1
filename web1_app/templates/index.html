@@ -6,11 +6,47 @@
 </head>
 <body>
   <h1>Добро пожаловать на главную страницу</h1>
-  <!--<h2>{{data}}</h2>-->
+  <h2>{{data.0.name}}</h2>
   <ul>
     {% for i in data %}
       <li>{{i.id}} {{i.name}} {{i.number}}</li>
     {% endfor %}
+    <p>Change data</p>
+    <li>
+      <form  method="POST">
+        {% csrf_token %}
+        <select id="select" name="select">
+          {% for i in data %}
+          <option value={{i.id}}>{{i.id}}</option>
+          {% endfor %}
+        </select>
+        
+        <input  type="text" id="name" name="name">
+        <input  type="text" id="number" name="number">
+        <button type="submit">Update</button>
+        
+      </form>
+    </li>
   </ul>
+  {% if post_data %}
+  <p>{% for j in post_data %}
+    {{j}}  
+    {% endfor %}
+  </p>
+  {% endif %}
 </body>
+
+<script>
+  var inpName = document.getElementById("name");
+  var inpNum = document.getElementById("number");
+  var select = document.getElementById("select");
+  var selectIndex = select.options[select.selectedIndex];
+
+
+  
+  //inpNum.value = {{data.selectIndex.number}}
+  //inpName.name = {{data.selectIndex.number}}
+  // select
+  
+</script>
 </html>
