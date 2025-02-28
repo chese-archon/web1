@@ -17,3 +17,8 @@ def indexpage(request):
         upd_profile.save(using='data')
         return render(request, 'index.html', {'data': data, 'post_data': post_data})
     return render(request, 'index.html', {'data': data})
+
+def room(request, room_name):
+    return render(request, 'chat/test.html', {
+        'room_name': room_name
+    })

@@ -31,12 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels', #webSocket
     'web1_app',
 ]
 
@@ -68,7 +70,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web1.wsgi.application'
+ASGI_APPLICATION = 'web1.asgi.application' # added
+#WSGI_APPLICATION = 'web1.wsgi.application'
 
 
 # Database
@@ -88,6 +91,15 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432'
     }
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        "BACKEND": "channels_postgres.core.PostgresChannelLayer",
+        'CONFIG': {
+            'database': 'web1',
+        },
+    },
 }
 
 

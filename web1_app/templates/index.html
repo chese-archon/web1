@@ -5,7 +5,39 @@
   <title> Main page </title>
 </head>
 <body>
-  <h1>Добро пожаловать на главную страницу</h1>
+  <header>
+    <style>
+      .main_msg {
+        visibility: visible;
+        background-color: blueviolet;
+        width: 300px;
+        margin-right: 0;
+        margin-left: auto;
+        padding: 5px;
+      }
+      .content {
+        vertical-align: middle
+        
+      }
+
+      .content p {
+        color:aliceblue;
+      }
+    </style>
+    
+    <div class="main_msg" id="main_msg">
+      <div class="content">
+        <p>GVggggvcfgh</p>
+        <div>
+          <button onclick="closePopup()">YES</button>
+          <button onclick="closePopup()">NO</button>
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <h1> Main page </h1>
   <h2>{{data.0.name}}</h2>
   <ul>
     {% for i in data %}
@@ -47,6 +79,11 @@
   //inpNum.value = {{data.selectIndex.number}}
   //inpName.name = {{data.selectIndex.number}}
   // select
-  
+</script>
+<script>
+  function closePopup() {
+    var popup = document.getElementById('main_msg')
+    popup.style.visibility = "collapse"
+  }
 </script>
 </html>
