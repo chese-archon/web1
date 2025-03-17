@@ -95,10 +95,10 @@ DATABASES = {
 
 CHANNEL_LAYERS = {
     'default': {
-        "BACKEND": "channels_postgres.core.PostgresChannelLayer",
-        'CONFIG': {
-            'database': 'web1',
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer",#"channels_postgres.core.PostgresChannelLayer",
+        #'CONFIG': {
+        #    'database': 'web1',
+        #},
     },
 }
 

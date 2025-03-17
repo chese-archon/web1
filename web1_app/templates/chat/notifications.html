@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Уведомления</title>
+</head>
+<body>
+    <h2>Уведомления:</h2>
+    <ul id="notifications"></ul>
+
+    <script>
+        var socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/notifications/");
+
+        socket.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            var message = data.message;
+            var notificationsList = document.getElementById("notifications");
+
+            var listItem = document.createElement("li");
+            listItem.textContent = message;
+            notificationsList.appendChild(listItem);
+        };
+    </script>
+</body>
+</html>

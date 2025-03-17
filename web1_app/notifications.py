@@ -3,6 +3,9 @@ import select
 import threading
 from django.conf import settings
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer #
+
 def listen_for_notifications():
     conn = psycopg2.connect(
         dbname=settings.DATABASES['data']['NAME'],
@@ -19,11 +22,21 @@ def listen_for_notifications():
     cur.execute("LISTEN number_update;")
     
     print("Ожидание уведомлений...")
-
+    channel_layer = get_channel_layer() #
     while True:
         if select.select([conn], [], [], 5) == ([], [], []):
             continue
         conn.poll()
         while conn.notifies:
             notify = conn.notifies.pop(0)
-            print("Получено уведомление:", notify.payload)
+            message = notify.payload
+            print("Получено уведомление:", message)#notify.payload)
+
+            # Отправка в WebSocket через Django Channels
+            async_to_sync(channel_layer.group_send)(
+                "notifications_group",
+                {
+                    "type": "send_notification",
+                    "message": message,
+                }
+            )
