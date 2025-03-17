@@ -7,7 +7,6 @@
 <body>
   <header>
     {% include "chat/notifications.html" %}
-    {% include "chat/test.html" %}
     <style>
       .main_msg {
         visibility: visible;
@@ -68,6 +67,34 @@
     {% endfor %}
   </p>
   {% endif %}
+
+  <h2>Уведомления 2:</h2>
+    <ul id="notifications"></ul>
+
+    <!--<script>
+        function fetchNotifications() {
+            fetch("/api/notifications/")
+                .then(response => response.json())
+                .then(data => {
+                    let notificationsList = document.getElementById("notifications");
+                    notificationsList.innerHTML = "";  // Очистка перед обновлением
+
+                    data.notifications.forEach(notification => {
+                        let listItem = document.createElement("li");
+                        listItem.textContent = notification.message;
+                        notificationsList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error("Ошибка загрузки уведомлений:", error));
+        }
+
+        // Запуск функции сразу при загрузке
+        fetchNotifications();
+
+        // Обновление каждые 5 секунд
+        setInterval(fetchNotifications, 5000);
+    </script>-->
+
 </body>
 
 <script>

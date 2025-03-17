@@ -1,23 +1,30 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 <head>
     <title>Уведомления</title>
-</head>
+</head>-->
 <body>
     <h2>Уведомления:</h2>
     <ul id="notifications"></ul>
 
     <script>
-        var socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/notifications/");
+        var notificationsList = document.getElementById("notifications"); 
+        const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/notifications/");
 
         socket.onmessage = function(event) {
-            var data = JSON.parse(event.data);
-            var message = data.message;
-            var notificationsList = document.getElementById("notifications");
+            const data = JSON.parse(event.data);
+            const message = data.message;
 
             var listItem = document.createElement("li");
             listItem.textContent = message;
             notificationsList.appendChild(listItem);
+
+            // Удаление через 60 секунд после появления
+            setTimeout(() => {
+                if (listItem.parentNode) { 
+                    listItem.remove();
+                }
+            }, 60000); // 60 секунд
         };
     </script>
 </body>
