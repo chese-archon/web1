@@ -12,19 +12,19 @@ class Data(models.Model):
         db_table = 'table1'
 
 # test signals
-last_signal_message = None
+last_signal_message = True
 
 @receiver(pre_save, sender=Data)
 def save_pre(sender, instance, **kwargs):
-    global last_signal_message
-    last_signal_message = "Pre save model data signal"
-    print(last_signal_message)  # Выводим в консоль
+    #global last_signal_message
+    #last_signal_message = False#"Pre save model data signal"
+    print("Pre save model data signal")#last_signal_message)  # Выводим в консоль
 
-@receiver(post_save, sender=Data)
-def save_post(sender, instance, **kwargs):
-    global last_signal_message
-    last_signal_message = "Post save model data signal"
-    print(last_signal_message)  # Выводим в консоль
+#@receiver(post_save, sender=Data)
+#def save_post(sender, instance, **kwargs):
+#    global last_signal_message
+#    last_signal_message = True#"Post save model data signal"
+#    print(last_signal_message)  # Выводим в консоль
     
 
 """

@@ -29,7 +29,11 @@
         <div class="content">
           <p id="db_notify"></p>
           <div>
-            <button onclick="closePopup()">YES</button>
+            <!--button onclick="closePopup()">YES</button-->
+            <form  method="POST">
+                {% csrf_token %}
+                <button type="submit" name="update" onclick="closePopup()">YES</button>
+              </form>
             <button onclick="closePopup()">NO</button>
           </div>
         </div>

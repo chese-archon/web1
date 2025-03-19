@@ -6,6 +6,7 @@ from django.conf import settings
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer #
 #from .models import last_signal_message
+import json
 
 
 def listen_for_notifications():
@@ -33,9 +34,18 @@ def listen_for_notifications():
             #print('listen ', notify.channel)
             #print('pid ', notify.pid) # pid of proc
             notify = conn.notifies.pop(0)
+            print(notify)
+            data = json.loads(notify.payload)  # Парсим JSON
+
+            message = data["message"]
+            old_value = data["old_value"]
+            new_value = data["new_value"]
+
+            print(f"{message}: было {old_value}, стало {new_value}")
+            """
             message = notify.payload
-            last_signal_message = 0
-            if last_signal_message  != '':
+            last_signal_message = True#0
+            if last_signal_message:
                 print("Получено уведомление:", message)#notify.payload)
             
                 print('notify ', notify)
@@ -48,3 +58,5 @@ def listen_for_notifications():
                     "message": message,
                 }
             )
+            last_signal_message = True"
+            """
