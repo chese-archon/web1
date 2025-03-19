@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Data
 
 # Create your views here.
@@ -6,16 +6,21 @@ from .models import Data
 def indexpage(request):
     data = Data.objects.using('data').all()
     if request.method == "POST":
-        data_post = request.POST
-        #user = data.get("user") request.POST.get('selected_id') 
-        id = data_post.get("select")
-        number = data_post.get("number")
-        name = data_post.get("name")
-        post_data = [id, number, name]
-        upd_profile = Data.objects.using('data').get(id=id)
-        upd_profile.name, upd_profile.number = name, number
-        upd_profile.save(using='data')
-        return render(request, 'index.html', {'data': data, 'post_data': post_data})
+        if "update" in request.POST:
+            for i in data:
+                i.refresh_from_db() # получает обновление от стороннего изменения бд
+            #return redirect('indexpage')
+        else:
+            data_post = request.POST
+            #user = data.get("user") request.POST.get('selected_id') 
+            id = data_post.get("select")
+            number = data_post.get("number")
+            name = data_post.get("name")
+            post_data = [id, number, name]
+            upd_profile = Data.objects.using('data').get(id=id)
+            upd_profile.name, upd_profile.number = name, number
+            upd_profile.save(using='data')
+            return render(request, 'index.html', {'data': data, 'post_data': post_data})
     return render(request, 'index.html', {'data': data})
 
 #def room(request, room_name):

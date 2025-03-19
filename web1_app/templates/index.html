@@ -94,7 +94,11 @@
         // Обновление каждые 5 секунд
         setInterval(fetchNotifications, 5000);
     </script>-->
-    <h2>Some text</h2>
+    <h2>Refresh db data</h2>
+    <form  method="POST">
+      {% csrf_token %}
+      <button type="submit" name="update">Refresh</button>
+    </form>
     <h2>Some text</h2>
     <h2>Some text</h2>
     <h2>Some text</h2>
