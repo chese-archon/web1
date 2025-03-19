@@ -4,8 +4,40 @@
     <title>Уведомления</title>
 </head>-->
 <body>
+    <style>
+        .main_msg {
+          visibility: hidden;
+          background-color: blueviolet;
+          width: 300px;
+          margin-right: 0;
+          margin-left: auto;
+          padding: 5px;
+        }
+        .content {
+          vertical-align: middle
+          
+        }
+  
+        .content p {
+          color:aliceblue;
+        }
+      </style>
+      
+      <div class="main_msg" id="main_msg">
+        <div class="content">
+          <p id="db_notify"></p>
+          <div>
+            <button onclick="closePopup()">YES</button>
+            <button onclick="closePopup()">NO</button>
+          </div>
+        </div>
+      </div>
+
     <h2>Уведомления:</h2>
-    <ul id="notifications"></ul>
+    <ul id="notifications">
+        <li>test part of notifications</li>
+        <li id="real"></li>
+    </ul>
 
     <script>
         var notificationsList = document.getElementById("notifications"); 
@@ -16,8 +48,15 @@
             const message = data.message;
 
             var listItem = document.createElement("li");
+            //var notify = document.getElementById("real");
+            //notify.textContent = message;
             listItem.textContent = message;
             notificationsList.appendChild(listItem);
+
+            var popup = document.getElementById("main_msg");
+            var popupText = document.getElementById("db_notify");
+            popupText.textContent = message;
+            popup.style.visibility = "visible";
 
             // Удаление через 60 секунд после появления
             setTimeout(() => {
@@ -27,5 +66,12 @@
             }, 60000); // 60 секунд
         };
     </script>
+
+    <script>
+        function closePopup() {
+          var popup = document.getElementById('main_msg')
+          popup.style.visibility = "collapse"
+        }
+      </script>
 </body>
 </html>

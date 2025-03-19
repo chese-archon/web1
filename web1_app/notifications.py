@@ -5,6 +5,8 @@ from django.conf import settings
 
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer #
+#from .models import last_signal_message
+
 
 def listen_for_notifications():
     conn = psycopg2.connect(
@@ -28,13 +30,19 @@ def listen_for_notifications():
             continue
         conn.poll()
         while conn.notifies:
+            #print('listen ', notify.channel)
+            #print('pid ', notify.pid) # pid of proc
             notify = conn.notifies.pop(0)
             message = notify.payload
-            print("Получено уведомление:", message)#notify.payload)
+            last_signal_message = 0
+            if last_signal_message  != '':
+                print("Получено уведомление:", message)#notify.payload)
+            
+                print('notify ', notify)
 
-            # Отправка в WebSocket через Django Channels
-            async_to_sync(channel_layer.group_send)(
-                "notifications_group",
+                # Отправка в WebSocket через Django Channels
+                async_to_sync(channel_layer.group_send)(
+                    "notifications_group",
                 {
                     "type": "send_notification",
                     "message": message,
