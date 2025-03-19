@@ -9,9 +9,11 @@
           visibility: hidden;
           background-color: blueviolet;
           width: 300px;
-          margin-right: 0;
-          margin-left: auto;
+          margin-right: auto;
+          margin-left: 0;
+          right: 20px;
           padding: 5px;
+          position: fixed;
         }
         .content {
           vertical-align: middle
@@ -58,19 +60,20 @@
             popupText.textContent = message;
             popup.style.visibility = "visible";
 
-            // Удаление через 60 секунд после появления
+            // Удаление через 30 секунд после появления
             setTimeout(() => {
                 if (listItem.parentNode) { 
                     listItem.remove();
+                    popup.style.visibility = "hidden";
                 }
-            }, 60000); // 60 секунд
+            }, 30000); // 60 секунд
         };
     </script>
 
     <script>
         function closePopup() {
-          var popup = document.getElementById('main_msg')
-          popup.style.visibility = "collapse"
+          var popup = document.getElementById('main_msg');
+          popup.style.visibility = "hidden";
         }
       </script>
 </body>
