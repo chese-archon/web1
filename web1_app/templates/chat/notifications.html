@@ -32,9 +32,16 @@
             <!--button onclick="closePopup()">YES</button-->
             <form  method="POST">
                 {% csrf_token %}
-                <button type="submit" name="update" onclick="closePopup()">YES</button>
+                <!--<button type="submit" name="update" onclick="closePopup()" id="returnNewValue">Принять</button>-->
+                <button type="submit" name="update" onclick="closePopup()">Принять</button>
+                <button onclick="closePopup()" name="returnOldValue" id="returnOldValue">Отклонить</button>
               </form>
-            <button onclick="closePopup()">NO</button>
+            
+            <div>
+              <p>Смена значения:</p>
+              старое <p id="old_value"></p>
+              новое <p id="new_value"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -44,14 +51,24 @@
         <li>test part of notifications</li>
         <li id="real"></li>
     </ul>
+    <h2>old / new value</h2>
+    <ul id="values_all">
+        <li id="old"></li>
+        <li id="new"></li>
+    </ul>
 
     <script>
         var notificationsList = document.getElementById("notifications"); 
         const socket = new WebSocket("ws://127.0.0.1:8000/ws/chat/notifications/");
 
         socket.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            const message = data.message;
+            var data = JSON.parse(event.data);
+            var message = data.message;
+            var old_value = data.old_value;
+            var new_value = data.new_value;
+            var table = data.table;
+            var column = data.column;
+            var str_id = data.str_id;
 
             var listItem = document.createElement("li");
             //var notify = document.getElementById("real");
@@ -63,6 +80,20 @@
             var popupText = document.getElementById("db_notify");
             popupText.textContent = message;
             popup.style.visibility = "visible";
+
+            var oldListItem = document.getElementById("old");
+            var newListItem = document.getElementById("new");
+            oldListItem.textContent = old_value//message;
+            newListItem.textContent = new_value//message;
+
+            var oldP = document.getElementById("old_value");
+            var newP = document.getElementById("new_value");
+            oldP.textContent = old_value//message;
+            newP.textContent = new_value//message;
+
+            var returnOldValue = document.getElementById("returnOldValue");
+            //var returnNewValue = document.getElementById("returnNewValue");
+            returnOldValue.value = old_value + ' '+ new_value + ' '+ table + ' ' + column + ' ' + str_id;
 
             // Удаление через 30 секунд после появления
             setTimeout(() => {

@@ -1,0 +1,26 @@
+CREATE OR REPLACE FUNCTION notify_func()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF OLD.name IS DISTINCT FROM NEW.name THEN
+        PERFORM pg_notify(
+    'name_update',
+    'db data changed in column | table1 | name | id: ' || NEW.id || ' | old_value: ' || OLD.name || ' | new_value: ' || NEW.name
+);
+    END IF;
+
+    IF OLD.number IS DISTINCT FROM NEW.number THEN
+        PERFORM pg_notify(
+    'number_update',
+    'db data changed in column | table1 | number | id: ' || NEW.id || ' | old_value: ' || OLD.number || ' | new_value: ' || NEW.number
+);
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE TRIGGER web1_data_update
+AFTER UPDATE ON table1
+FOR EACH ROW
+EXECUTE FUNCTION notify_func();

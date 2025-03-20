@@ -10,6 +10,23 @@ def indexpage(request):
             for i in data:
                 i.refresh_from_db() # получает обновление от стороннего изменения бд
             #return redirect('indexpage')
+        elif "returnOldValue" in request.POST:
+            val = request.POST.get("returnOldValue")
+            arr = val.split(" ")
+            print(arr)
+            print('returnOldValue', val)
+            # old_value + ' '+ new_value + ' '+ table + ' ' + column + ' ' + str_id
+            if arr[2] == "table1":
+                old_value = arr[0]
+                new_value = arr[1]
+                table = arr[2]
+                column = arr[3]
+                str_id = arr[4]
+                upd_profile = Data.objects.using('data').get(id=str_id)
+                #upd_profile.column = 
+                setattr(upd_profile, column, old_value)
+                upd_profile.save()
+
         else:
             data_post = request.POST
             #user = data.get("user") request.POST.get('selected_id') 

@@ -35,13 +35,42 @@ def listen_for_notifications():
             #print('pid ', notify.pid) # pid of proc
             notify = conn.notifies.pop(0)
             print(notify)
+            """
             data = json.loads(notify.payload)  # Парсим JSON
 
             message = data["message"]
             old_value = data["old_value"]
             new_value = data["new_value"]
+            """
+
+            payload = notify.payload  # Получаем строку
+
+            # Разбираем строку (разделитель — " | ")
+            parts = payload.split(" | ")
+            print(parts)
+            message = parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3].split(": ")[1]  # Первое — сообщение table column id
+            old_value = parts[4].split(": ")[1]  # Извлекаем старое значение
+            new_value = parts[5].split(": ")[1]  # Извлекаем новое значение
+            table = parts[1]
+            column = parts[2]
+            str_id = parts[3].split(": ")[1]
 
             print(f"{message}: было {old_value}, стало {new_value}")
+
+            # Отправка в WebSocket через Django Channels
+            async_to_sync(channel_layer.group_send)(
+                "notifications_group",
+                {
+                    "type": "send_notification",
+                    "message": message,
+                    "old_value": old_value,
+                    "new_value": new_value,
+                    "table": table, 
+                    "column": column,
+                    "str_id": str_id, 
+                }
+            )
+
             """
             message = notify.payload
             last_signal_message = True#0
