@@ -11,6 +11,7 @@ class Data(models.Model):
     class Meta:
         db_table = 'table1'
 
+
 # test signals
 last_signal_message = True
 

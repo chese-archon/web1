@@ -34,8 +34,10 @@
                 {% csrf_token %}
                 <!--<button type="submit" name="update" onclick="closePopup()" id="returnNewValue">Принять</button>-->
                 <button type="submit" name="update" onclick="closePopup()">Принять</button>
-                <button onclick="closePopup()" name="returnOldValue" id="returnOldValue">Отклонить</button>
-              </form>
+                <!--<button onclick="closePopup()" name="returnOldValue" id="returnOldValue">Отклонить</button>-->
+                
+            </form>
+            <button onclick="closePopup_oldVal()" name="returnOldValue" id="returnOldValue">Отклонить</button>
             
             <div>
               <p>Смена значения:</p>
@@ -107,6 +109,24 @@
 
     <script>
         function closePopup() {
+          var popup = document.getElementById('main_msg');
+          popup.style.visibility = "hidden";
+        }
+      </script>
+      <script>
+        function closePopup_oldVal() {
+          // Отправляем POST-запрос
+          fetch('/api/notification_closed/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    //'X-CSRFToken': getCookie('csrftoken') // Функция получения CSRF-токена
+                },
+                body: JSON.stringify({ message: "Notification closed" })
+            }).then(response => response.json())
+              .then(data => console.log("Success:", data))
+              .catch(error => console.error("Error:", error));
+          // in end
           var popup = document.getElementById('main_msg');
           popup.style.visibility = "hidden";
         }

@@ -1,7 +1,18 @@
 from django.shortcuts import render, redirect
 from .models import Data
+from django.http import JsonResponse
+import json
 
 # Create your views here.
+
+
+def notification_closed(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        print("Окно закрылось:", data)
+        print("Окно закрылось: views info")
+        return JsonResponse({"status": "ok"})
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 def indexpage(request):
     data = Data.objects.using('data').all()

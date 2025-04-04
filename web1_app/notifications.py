@@ -9,6 +9,9 @@ from channels.layers import get_channel_layer #
 import json
 
 
+def parse(notify_playload):
+    return
+
 def listen_for_notifications():
     conn = psycopg2.connect(
         dbname=settings.DATABASES['data']['NAME'],

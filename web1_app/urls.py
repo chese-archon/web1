@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("", views.indexpage, name="home"),
     path("home/", views.indexpage, name="home"),
+    #path('api/notification_closed/', views.notification_closed, name='notification_closed'),
+
     #path("<str:room_name>/", views.room, name="test"),
 ]
 
